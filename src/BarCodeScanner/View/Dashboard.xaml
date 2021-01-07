@@ -1,0 +1,62 @@
+﻿<UserControl
+    x:Class="BarCodeScanner.View.Dashboard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="White"
+    mc:Ignorable="d">
+    <StackPanel Margin="20">
+        <!--  IconFilds  -->
+        <StackPanel Orientation="Horizontal">
+            <materialDesign:PackIcon
+                Width="27"
+                Height="27"
+                Margin="0,0,10,0"
+                VerticalAlignment="Center"
+                Kind="BarcodeScan" />
+            <TextBlock
+                VerticalAlignment="Center"
+                FontSize="18"
+                FontWeight="Bold"
+                Text="Bar Code - " />
+            <TextBlock
+                VerticalAlignment="Center"
+                FontSize="15"
+                FontWeight="Bold"
+                Text="{Binding Path=BarCode}" />
+        </StackPanel>
+        <StackPanel Margin="0,15,0,20" Orientation="Horizontal">
+            <materialDesign:PackIcon
+                Width="27"
+                Height="27"
+                Margin="0,0,10,0"
+                VerticalAlignment="Center"
+                Kind="AccountBox" />
+            <TextBlock
+                VerticalAlignment="Center"
+                FontSize="18"
+                FontWeight="Bold"
+                Text="ФИО - " />
+            <TextBlock
+                VerticalAlignment="Center"
+                FontSize="15"
+                FontWeight="Bold"
+                Text="{Binding Path=FullName}" />
+        </StackPanel>
+
+        <!--  ScanchangedText  -->
+        <Grid>
+            <TextBox
+                Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                VerticalAlignment="Top"
+                Height="255"
+                AcceptsReturn="True"
+                TextWrapping="Wrap"
+                VerticalScrollBarVisibility="Auto"
+                materialDesign:HintAssist.Hint="Лог сканирование" 
+                Text="{Binding LogText}"/>
+        </Grid>
+    </StackPanel>
+</UserControl>
