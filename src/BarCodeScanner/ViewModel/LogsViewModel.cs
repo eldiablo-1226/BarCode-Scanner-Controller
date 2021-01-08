@@ -22,7 +22,7 @@ namespace BarCodeScanner.ViewModel
             _db = dbContext;
             _logger = logger;
 
-            barCode.GetBarCodeString += async s => { await Task.Delay(500); LoadLogs(); };
+            barCode.GetBarCodeString += async _ => { await Task.Delay(500); LoadLogs(); };
 
             RemoveCommand = ReactiveCommand.Create(DeleteWorker, this.WhenAny(
                 model => model.SelectedIteam,
@@ -31,7 +31,7 @@ namespace BarCodeScanner.ViewModel
             LoadLogs();
         }
         [Reactive] public WorkTimeLog SelectedIteam { get; set; }
-        [Reactive] public ObservableCollection<WorkTimeLog> LogsList { get; set; }
+        [Reactive] public IEnumerable<WorkTimeLog> LogsList { get; set; }
         [Reactive] public IReactiveCommand RemoveCommand { get; set; }
 
 
@@ -50,7 +50,7 @@ namespace BarCodeScanner.ViewModel
         }
 
         private void LoadLogs() =>
-            LogsList = new ObservableCollection<WorkTimeLog>(_db.Logs.FindAll().Reverse());
+            LogsList = _db.Logs.FindAll().Reverse();
 
     }
 }

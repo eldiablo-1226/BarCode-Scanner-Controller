@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using BarCodeScanner.db;
 using BarCodeScanner.db.Model;
 using BarCodeScanner.Helps;
+using BarCodeScanner.View;
 using LiteDB;
+using MaterialDesignThemes.Wpf;
 using NLog;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -37,20 +39,29 @@ namespace BarCodeScanner.ViewModel
         }
 
         [Reactive] public Worker SelectedIteam { get; set; }
-
-        [Reactive] public ObservableCollection<Worker> WorkersList { get; set; }
-
+        [Reactive] public IEnumerable<Worker> WorkersList { get; set; }
+        
         [Reactive] public IReactiveCommand AddNewCommand { get; set; }
         [Reactive] public IReactiveCommand EditCommand { get; set; }
         [Reactive] public IReactiveCommand RemoveCommand { get; set; }
 
         private async Task AddNewWorker()
         {
-            var dialog = 
+            var dialog = await DialogHost.Show(new AddNewWorkerView());
+            if (dialog is Worker worker)
+            {
+                _db.Workers.Insert(worker);
+                LoadWorkers();
+            }
         }
         private async Task EditWorker()
         {
-
+            var dialog = await DialogHost.Show(new AddNewWorkerView(SelectedIteam));
+            if (dialog is Worker worker)
+            {
+                _db.Workers.Update(worker);
+                LoadWorkers();
+            }
         }
         private void DeleteWorker()
         {
@@ -68,6 +79,6 @@ namespace BarCodeScanner.ViewModel
 
 
         private void LoadWorkers() =>
-            WorkersList = new ObservableCollection<Worker>(_db.Workers.FindAll());
+            WorkersList = _db.Workers.FindAll();
     }
 }

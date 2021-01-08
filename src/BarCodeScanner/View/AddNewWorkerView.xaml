@@ -1,10 +1,65 @@
-﻿<UserControl x:Class="BarCodeScanner.View.AddNewWorkerView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" >
-    <Grid>
-            
+﻿<UserControl
+    x:Class="BarCodeScanner.View.AddNewWorkerView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Width="280"
+    Height="240"
+    mc:Ignorable="d">
+
+    <Grid Margin="20,15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <!--  Title  -->
+            <TextBlock
+                Margin="0,0,0,30"
+                FontSize="15"
+                FontWeight="Bold"
+                Text="{Binding ButtonTextContext, StringFormat={}{0} работника}"
+                TextAlignment="Center" />
+
+            <TextBox
+                Margin="0,0,0,20"
+                VerticalAlignment="Center"
+                materialDesign:HintAssist.Hint="ФИО"
+                AcceptsReturn="True"
+                Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                Text="{Binding FullName}" />
+            <TextBox
+                VerticalAlignment="Center"
+                materialDesign:HintAssist.Hint="BarCode"
+                AcceptsReturn="True"
+                Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                Text="{Binding BarCode}">
+                <TextBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Сгенерировать рандомный баркод" Command=""/>
+                    </ContextMenu>
+                </TextBox.ContextMenu>
+            </TextBox>
+        </StackPanel>
+
+        <!--  ContextButton  -->
+        <StackPanel
+            Grid.Row="1"
+            Margin="0,15,0,0"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <Button
+                Margin="5,0"
+                Command="{Binding ContextActionCommand}"
+                Content="{Binding ButtonTextContext}"
+                Style="{StaticResource MaterialDesignFlatButton}" />
+            <Button
+                Margin="5,0"
+                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                Content="Отмена"
+                Style="{StaticResource MaterialDesignFlatButton}" />
+        </StackPanel>
     </Grid>
 </UserControl>

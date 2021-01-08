@@ -18,9 +18,9 @@
             </ListView.ContextMenu>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding WorkerBy}" Header="ФИО" Width="170"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding ScanTime}" Header="Время сканирование" />
-                    <GridViewColumn DisplayMemberBinding="{Binding ScanType}" Header="Тип сканирование" Width="150"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding WorkerBy}" Header="ФИО" Width="165"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding ScanTime}" Header="Время сканирование" Width="150" />
+                    <GridViewColumn DisplayMemberBinding="{Binding ScanType}" Header="Тип сканирование" Width="60"/>
                 </GridView>
             </ListView.View>
         </ListView>

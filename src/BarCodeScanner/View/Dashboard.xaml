@@ -51,7 +51,7 @@
             <TextBox
                 Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
                 VerticalAlignment="Top"
-                Height="255"
+                Height="280"
                 AcceptsReturn="True"
                 TextWrapping="Wrap"
                 VerticalScrollBarVisibility="Auto"
