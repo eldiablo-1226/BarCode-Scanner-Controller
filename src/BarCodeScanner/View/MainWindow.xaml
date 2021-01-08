@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tb="http://www.hardcodet.net/taskbar"
     xmlns:views="clr-namespace:BarCodeScanner.View"
     Title="MainWindow"
     Width="500"
@@ -14,40 +15,58 @@
     mc:Ignorable="d">
 
     <materialDesign:DialogHost Identifier="DialogHost">
-        <TabControl materialDesign:ColorZoneAssist.Mode="Standard" Style="{StaticResource MaterialDesignNavigatilRailTabControl}">
-            <TabItem Style="{StaticResource MaterialDesignNavigationRailTabItem}">
-                <TabItem.Header>
-                    <materialDesign:PackIcon
-                        Width="24"
-                        Height="24"
-                        Kind="DesktopMacDashboard" />
-                </TabItem.Header>
+        <Grid>
+            <tb:TaskbarIcon
+                x:Name="NotifyIcon"
+                Grid.Row="0"
+                ToolTipText="Click to open"
+                TrayLeftMouseDown="OpenClickTaskBar"
+                Visibility="Hidden">
 
-                <views:Dashboard DataContext="{Binding Dashboard}" />
 
-            </TabItem>
-            <TabItem Style="{StaticResource MaterialDesignNavigationRailTabItem}">
-                <TabItem.Header>
-                    <materialDesign:PackIcon
-                        Width="24"
-                        Height="24"
-                        Kind="HumanGreeting" />
-                </TabItem.Header>
+                <tb:TaskbarIcon.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Click="MenuItem_OnClick" Header="Закрыть приложения" />
+                    </ContextMenu>
+                </tb:TaskbarIcon.ContextMenu>
 
-                <views:WorkersView DataContext="{Binding Workers}" />
+            </tb:TaskbarIcon>
 
-            </TabItem>
-            <TabItem Style="{StaticResource MaterialDesignNavigationRailTabItem}">
-                <TabItem.Header>
-                    <materialDesign:PackIcon
-                        Width="24"
-                        Height="24"
-                        Kind="PostOutline" />
-                </TabItem.Header>
+            <TabControl materialDesign:ColorZoneAssist.Mode="Standard" Style="{StaticResource MaterialDesignNavigatilRailTabControl}">
+                <TabItem Style="{StaticResource MaterialDesignNavigationRailTabItem}">
+                    <TabItem.Header>
+                        <materialDesign:PackIcon
+                            Width="24"
+                            Height="24"
+                            Kind="DesktopMacDashboard" />
+                    </TabItem.Header>
 
-                <views:LogsView DataContext="{Binding Logs}" />
+                    <views:Dashboard DataContext="{Binding Dashboard}" />
 
-            </TabItem>
-        </TabControl>
+                </TabItem>
+                <TabItem Style="{StaticResource MaterialDesignNavigationRailTabItem}">
+                    <TabItem.Header>
+                        <materialDesign:PackIcon
+                            Width="24"
+                            Height="24"
+                            Kind="HumanGreeting" />
+                    </TabItem.Header>
+
+                    <views:WorkersView DataContext="{Binding Workers}" />
+
+                </TabItem>
+                <TabItem Style="{StaticResource MaterialDesignNavigationRailTabItem}">
+                    <TabItem.Header>
+                        <materialDesign:PackIcon
+                            Width="24"
+                            Height="24"
+                            Kind="PostOutline" />
+                    </TabItem.Header>
+
+                    <views:LogsView DataContext="{Binding Logs}" />
+
+                </TabItem>
+            </TabControl>
+        </Grid>
     </materialDesign:DialogHost>
 </Window>
