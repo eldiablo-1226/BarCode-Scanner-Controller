@@ -12,6 +12,8 @@
                   SelectionMode="Single">
             <ListView.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Header="Обновить" 
+                              Command="{Binding UpdateCommand}"/>
                     <MenuItem Header="Удалить" 
                               Command="{Binding RemoveCommand}"/>
                 </ContextMenu>

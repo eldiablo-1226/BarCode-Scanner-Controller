@@ -22,16 +22,18 @@ namespace BarCodeScanner.ViewModel
             _db = dbContext;
             _logger = logger;
 
-            barCode.GetBarCodeString += async _ => { await Task.Delay(500); LoadLogs(); };
+            //barCode.GetBarCodeString += s => LoadLogs();
 
             RemoveCommand = ReactiveCommand.Create(DeleteWorker, this.WhenAny(
                 model => model.SelectedIteam,
                 log => log != null));
-
+            UpdateCommand = ReactiveCommand.Create(LoadLogs);
             LoadLogs();
         }
         [Reactive] public WorkTimeLog SelectedIteam { get; set; }
         [Reactive] public IEnumerable<WorkTimeLog> LogsList { get; set; }
+        [Reactive] public IReactiveCommand UpdateCommand { get; set; }
+
         [Reactive] public IReactiveCommand RemoveCommand { get; set; }
 
 
