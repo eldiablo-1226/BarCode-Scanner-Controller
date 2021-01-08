@@ -2,13 +2,15 @@
     x:Class="BarCodeScanner.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Views="clr-namespace:BarCodeScanner.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:BarCodeScanner.View"
     Title="MainWindow"
-    MinHeight="450"
+    Width="500"
+    Height="450"
     MinWidth="500"
+    MinHeight="450"
     mc:Ignorable="d">
 
     <materialDesign:DialogHost Identifier="DialogHost">
@@ -21,7 +23,7 @@
                         Kind="DesktopMacDashboard" />
                 </TabItem.Header>
 
-                <Views:Dashboard DataContext="{Binding Dashboard}" />
+                <views:Dashboard DataContext="{Binding Dashboard}" />
 
             </TabItem>
             <TabItem Style="{StaticResource MaterialDesignNavigationRailTabItem}">
@@ -32,7 +34,7 @@
                         Kind="HumanGreeting" />
                 </TabItem.Header>
 
-                <Views:WorkersView DataContext="{Binding Workers}" />
+                <views:WorkersView DataContext="{Binding Workers}" />
 
             </TabItem>
             <TabItem Style="{StaticResource MaterialDesignNavigationRailTabItem}">
@@ -43,7 +45,7 @@
                         Kind="PostOutline" />
                 </TabItem.Header>
 
-                <Views:LogsView DataContext="{Binding Logs}" />
+                <views:LogsView DataContext="{Binding Logs}" />
 
             </TabItem>
         </TabControl>

@@ -38,7 +38,7 @@
                 Text="{Binding BarCode}">
                 <TextBox.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Сгенерировать рандомный баркод" Command=""/>
+                        <MenuItem Command="{Binding GenerateBarcodeCommand}" Header="Сгенерировать рандомный баркод" />
                     </ContextMenu>
                 </TextBox.ContextMenu>
             </TextBox>

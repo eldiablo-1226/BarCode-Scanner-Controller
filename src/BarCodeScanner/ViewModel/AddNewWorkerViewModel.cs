@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BarCodeScanner.db.Model;
+﻿using BarCodeScanner.db.Model;
+using BarCodeScanner.Helps;
 using LiteDB;
 using MaterialDesignThemes.Wpf;
 using ReactiveUI;
@@ -20,8 +16,8 @@ namespace BarCodeScanner.ViewModel
         [Reactive] public string FullName { get; set; }
         [Reactive] public string BarCode { get; set; }
 
-        public IReactiveCommand ContextActionCommand { get; init; }
-        public IReactiveCommand GenerateBarcodeCommand { get; init; }
+        public IReactiveCommand ContextActionCommand { get; }
+        public IReactiveCommand GenerateBarcodeCommand { get; }
 
         public AddNewWorkerViewModel()
         {
@@ -31,7 +27,7 @@ namespace BarCodeScanner.ViewModel
                     (b, n) => 
                         !string.IsNullOrWhiteSpace(b) &&
                         !string.IsNullOrWhiteSpace(n)));
-            GenerateBarcodeCommand = ReactiveCommand.Create(() => );
+            GenerateBarcodeCommand = ReactiveCommand.Create(() => BarCode = BarCodeGenerator.GenerateBarCode());
         }
         public AddNewWorkerViewModel(Worker selectediteam) : this()
         {

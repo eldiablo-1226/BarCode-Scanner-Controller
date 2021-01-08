@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using BarCodeScanner.db;
 using BarCodeScanner.db.Model;
-using BarCodeScanner.Helps;
 using BarCodeScanner.View;
-using LiteDB;
 using MaterialDesignThemes.Wpf;
 using NLog;
 using ReactiveUI;
@@ -28,22 +26,26 @@ namespace BarCodeScanner.ViewModel
 
             LoadWorkers();
 
-            var canExecute = this.WhenAny(
-                model => model.SelectedIteam,
-                worker => worker != null);
+            _isSelect = this.WhenAnyValue(m => m.SelectedIteam)
+                .Select(b => b != null)
+                .ToProperty(this, m => m.IsSelected);
 
 
-            RemoveCommand = ReactiveCommand.Create(DeleteWorker, canExecute);
             AddNewCommand = ReactiveCommand.CreateFromTask(AddNewWorker);
             EditCommand = ReactiveCommand.CreateFromTask(EditWorker);
-        }
+            RemoveCommand = ReactiveCommand.Create(DeleteWorker);
+            ClipboardCommand = ReactiveCommand.Create(() => Clipboard.SetText(SelectedIteam.BarCode));
 
+        }
+        readonly ObservableAsPropertyHelper<bool> _isSelect;
+        public bool IsSelected => _isSelect.Value;
         [Reactive] public Worker SelectedIteam { get; set; }
         [Reactive] public IEnumerable<Worker> WorkersList { get; set; }
         
         [Reactive] public IReactiveCommand AddNewCommand { get; set; }
         [Reactive] public IReactiveCommand EditCommand { get; set; }
         [Reactive] public IReactiveCommand RemoveCommand { get; set; }
+        [Reactive] public IReactiveCommand ClipboardCommand { get; set; }
 
         private async Task AddNewWorker()
         {

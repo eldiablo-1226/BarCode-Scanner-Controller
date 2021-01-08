@@ -15,9 +15,14 @@
                     <MenuItem Header="Добавть новый" 
                               Command="{Binding AddNewCommand}"/>
                     <MenuItem Header="Изменить" 
-                              Command="{Binding EditCommand}"/>
+                              Command="{Binding EditCommand}"
+                              IsEnabled="{Binding IsSelected}"/>
                     <MenuItem Header="Удалить" 
-                              Command="{Binding RemoveCommand}"/>
+                              Command="{Binding RemoveCommand}"
+                              IsEnabled="{Binding IsSelected}"/>
+                    <MenuItem Header="Скопировать BarCode" 
+                              Command="{Binding ClipboardCommand}" 
+                              IsEnabled="{Binding IsSelected}"/>
                 </ContextMenu>
             </ListView.ContextMenu>
             <ListView.View>

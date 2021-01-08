@@ -49,14 +49,14 @@
         <!--  ScanchangedText  -->
         <Grid>
             <TextBox
-                Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
-                VerticalAlignment="Top"
                 Height="280"
+                VerticalAlignment="Top"
+                materialDesign:HintAssist.Hint="Лог сканирование"
                 AcceptsReturn="True"
+                Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+                Text="{Binding LogText}"
                 TextWrapping="Wrap"
-                VerticalScrollBarVisibility="Auto"
-                materialDesign:HintAssist.Hint="Лог сканирование" 
-                Text="{Binding LogText}"/>
+                VerticalScrollBarVisibility="Auto" />
         </Grid>
     </StackPanel>
 </UserControl>
