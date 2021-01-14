@@ -1,11 +1,11 @@
-﻿using BarCodeScanner.db.Model;
+﻿using DataBase.Model;
 using LiteDB;
 
-namespace BarCodeScanner.db
+namespace DataBase
 {
     public class DbContext : IDbContext
     {
-        private readonly LiteDatabase Db;
+        private readonly LiteDatabase _db;
         private readonly ILiteCollection<Worker> _workers;
         private readonly ILiteCollection<WorkTimeLog> _logs;
 
@@ -14,14 +14,14 @@ namespace BarCodeScanner.db
 
         public DbContext()
         {
-            Db = new LiteDatabase("Workers.db");
-            _workers = Db.GetCollection<Worker>();
-            _logs = Db.GetCollection<WorkTimeLog>();
+            _db = new LiteDatabase("Workers.db");
+            _workers = _db.GetCollection<Worker>();
+            _logs = _db.GetCollection<WorkTimeLog>();
         }
 
         ~ DbContext()
         {
-            Db.Dispose();
+            _db.Dispose();
         }
     }
 }

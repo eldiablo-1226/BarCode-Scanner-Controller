@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using BarCodeScanner.Core;
-using BarCodeScanner.db;
-using BarCodeScanner.db.Model;
+
+using DataBase;
+using DataBase.Model;
+
 using NLog;
+
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -15,10 +16,13 @@ namespace BarCodeScanner.ViewModel
     public class DashboardViewModel : ReactiveObject
     {
         #region ContextDependenci
-            private readonly IDbContext _db;
-            private readonly IBarCodeContext _barCode;
-            private readonly ILogger _logger;
-        #endregion
+
+        private readonly IDbContext _db;
+        private readonly IBarCodeContext _barCode;
+        private readonly ILogger _logger;
+
+        #endregion ContextDependenci
+
         public DashboardViewModel(IDbContext dbContext, IBarCodeContext barCode, ILogger logger)
         {
             _db = dbContext;

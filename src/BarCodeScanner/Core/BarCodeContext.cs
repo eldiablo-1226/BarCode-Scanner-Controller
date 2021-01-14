@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO.Ports;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Windows;
+
 #pragma warning disable 649
 
 namespace BarCodeScanner.Core
@@ -15,10 +15,8 @@ namespace BarCodeScanner.Core
         private string _comPort = SerialPort.GetPortNames().LastOrDefault() ?? "";
         public string ComPort { get => _comPort; set => _comPort = value; }
 
-
         private Action<string> _getBarCodeEvent;
         public Action<string> GetBarCodeString { get => _getBarCodeEvent; set => _getBarCodeEvent += value; }
-
 
         public BarCodeContext()
         {
@@ -43,11 +41,12 @@ namespace BarCodeScanner.Core
             }
             catch (Exception e)
             {
-                MessageBox.Show("Ошибка при поиске сканера пожалуйста переподключите сканер\r\nКод ошибки - "+ e.Message
-                    ,"Error COM");
+                MessageBox.Show("Ошибка при поиске сканера пожалуйста переподключите сканер\r\nКод ошибки - " + e.Message
+                    , "Error COM");
                 throw;
             }
         }
+
         ~BarCodeContext()
         {
             if (SerialPort != null && SerialPort.IsOpen)

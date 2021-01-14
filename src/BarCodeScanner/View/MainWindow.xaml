@@ -23,13 +23,11 @@
                 TrayLeftMouseDown="OpenClickTaskBar"
                 Visibility="Hidden">
 
-
                 <tb:TaskbarIcon.ContextMenu>
                     <ContextMenu>
                         <MenuItem Click="MenuItem_OnClick" Header="Закрыть приложения" />
                     </ContextMenu>
                 </tb:TaskbarIcon.ContextMenu>
-
             </tb:TaskbarIcon>
 
             <TabControl materialDesign:ColorZoneAssist.Mode="Standard" Style="{StaticResource MaterialDesignNavigatilRailTabControl}">
@@ -42,7 +40,6 @@
                     </TabItem.Header>
 
                     <views:Dashboard DataContext="{Binding Dashboard}" />
-
                 </TabItem>
                 <TabItem Style="{StaticResource MaterialDesignNavigationRailTabItem}">
                     <TabItem.Header>
@@ -53,7 +50,6 @@
                     </TabItem.Header>
 
                     <views:WorkersView DataContext="{Binding Workers}" />
-
                 </TabItem>
                 <TabItem Style="{StaticResource MaterialDesignNavigationRailTabItem}">
                     <TabItem.Header>
@@ -64,7 +60,6 @@
                     </TabItem.Header>
 
                     <views:LogsView DataContext="{Binding Logs}" />
-
                 </TabItem>
             </TabControl>
         </Grid>

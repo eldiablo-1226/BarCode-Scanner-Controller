@@ -6,6 +6,7 @@ namespace BarCodeScanner.Helps
     {
         //public static int Startbarcode = "5049661";
         private static Random _rd = new Random();
+
         private static readonly string CountryCode = "50";
         private static readonly string ManufacturerCode = "49561";
 
@@ -35,6 +36,5 @@ namespace BarCodeScanner.Helps
 
             return sTemp + iCheckSum;
         }
-
     }
 }

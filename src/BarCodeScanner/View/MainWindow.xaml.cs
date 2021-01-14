@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Windows;
-using BarCodeScanner.ViewModel;
 using System.Drawing;
 using System.IO;
+using System.Windows;
+
+using BarCodeScanner.ViewModel;
 
 namespace BarCodeScanner
 {

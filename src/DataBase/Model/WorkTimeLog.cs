@@ -1,7 +1,7 @@
 ﻿using System;
 using LiteDB;
 
-namespace BarCodeScanner.db.Model
+namespace DataBase.Model
 {
     public class WorkTimeLog
     {

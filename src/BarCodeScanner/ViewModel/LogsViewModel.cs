@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using BarCodeScanner.Core;
-using BarCodeScanner.db;
-using BarCodeScanner.db.Model;
+
+using DataBase;
+using DataBase.Model;
+
 using NLog;
+
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -17,6 +18,7 @@ namespace BarCodeScanner.ViewModel
     {
         private IDbContext _db;
         private ILogger _logger;
+
         public LogsViewModel(IDbContext dbContext, ILogger logger, IBarCodeContext barCode)
         {
             _db = dbContext;
@@ -30,12 +32,12 @@ namespace BarCodeScanner.ViewModel
             UpdateCommand = ReactiveCommand.Create(LoadLogs);
             LoadLogs();
         }
+
         [Reactive] public WorkTimeLog SelectedIteam { get; set; }
         [Reactive] public IEnumerable<WorkTimeLog> LogsList { get; set; }
         [Reactive] public IReactiveCommand UpdateCommand { get; set; }
 
         [Reactive] public IReactiveCommand RemoveCommand { get; set; }
-
 
         private void DeleteWorker()
         {
@@ -53,6 +55,5 @@ namespace BarCodeScanner.ViewModel
 
         private void LoadLogs() =>
             LogsList = _db.Logs.FindAll().Reverse();
-
     }
 }

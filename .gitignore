@@ -348,3 +348,9 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+src/.idea/.idea.BarCodeScanner/.idea/vcs.xml
+src/.idea/.idea.BarCodeScanner/.idea/riderModule.iml
+src/.idea/.idea.BarCodeScanner/.idea/misc.xml
+src/.idea/.idea.BarCodeScanner/.idea/indexLayout.xml
+src/.idea/.idea.BarCodeScanner/.idea/encodings.xml
+src/.idea/.idea.BarCodeScanner/.idea/.name

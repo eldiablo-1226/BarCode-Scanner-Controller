@@ -1,6 +1,6 @@
-﻿using BarCodeScanner.db.Model;
-using BarCodeScanner.ViewModel;
-using CommonServiceLocator;
+﻿using BarCodeScanner.ViewModel;
+
+using DataBase.Model;
 
 namespace BarCodeScanner.View
 {
@@ -11,6 +11,7 @@ namespace BarCodeScanner.View
             InitializeComponent();
             DataContext = new AddNewWorkerViewModel();
         }
+
         public AddNewWorkerView(Worker selectedIteam)
         {
             InitializeComponent();

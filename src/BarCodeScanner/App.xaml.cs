@@ -2,13 +2,15 @@
 
 using Autofac;
 using Autofac.Extras.CommonServiceLocator;
+
 using BarCodeScanner.Core;
-using BarCodeScanner.db;
 using BarCodeScanner.ViewModel;
 
 using CommonServiceLocator;
+
+using DataBase;
+
 using NLog;
-using ReactiveUI;
 
 namespace BarCodeScanner
 {

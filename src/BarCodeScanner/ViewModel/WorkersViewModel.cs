@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using BarCodeScanner.db;
-using BarCodeScanner.db.Model;
+
 using BarCodeScanner.View;
+
+using DataBase;
+using DataBase.Model;
+
 using MaterialDesignThemes.Wpf;
+
 using NLog;
+
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -16,9 +21,12 @@ namespace BarCodeScanner.ViewModel
     public class WorkersViewModel : ReactiveObject
     {
         #region IContext
+
         private IDbContext _db;
         private ILogger _logger;
-        #endregion
+
+        #endregion IContext
+
         public WorkersViewModel(IDbContext dbContext, ILogger logger)
         {
             _db = dbContext;
@@ -30,18 +38,17 @@ namespace BarCodeScanner.ViewModel
                 .Select(b => b != null)
                 .ToProperty(this, m => m.IsSelected);
 
-
             AddNewCommand = ReactiveCommand.CreateFromTask(AddNewWorker);
             EditCommand = ReactiveCommand.CreateFromTask(EditWorker);
             RemoveCommand = ReactiveCommand.Create(DeleteWorker);
             ClipboardCommand = ReactiveCommand.Create(() => Clipboard.SetText(SelectedIteam.BarCode));
-
         }
-        readonly ObservableAsPropertyHelper<bool> _isSelect;
+
+        private readonly ObservableAsPropertyHelper<bool> _isSelect;
         public bool IsSelected => _isSelect.Value;
         [Reactive] public Worker SelectedIteam { get; set; }
         [Reactive] public IEnumerable<Worker> WorkersList { get; set; }
-        
+
         [Reactive] public IReactiveCommand AddNewCommand { get; set; }
         [Reactive] public IReactiveCommand EditCommand { get; set; }
         [Reactive] public IReactiveCommand RemoveCommand { get; set; }
@@ -56,6 +63,7 @@ namespace BarCodeScanner.ViewModel
                 LoadWorkers();
             }
         }
+
         private async Task EditWorker()
         {
             var dialog = await DialogHost.Show(new AddNewWorkerView(SelectedIteam));
@@ -65,6 +73,7 @@ namespace BarCodeScanner.ViewModel
                 LoadWorkers();
             }
         }
+
         private void DeleteWorker()
         {
             try
@@ -78,7 +87,6 @@ namespace BarCodeScanner.ViewModel
                 throw;
             }
         }
-
 
         private void LoadWorkers() =>
             WorkersList = _db.Workers.FindAll();

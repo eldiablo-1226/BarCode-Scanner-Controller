@@ -1,7 +1,11 @@
-﻿using BarCodeScanner.db.Model;
-using BarCodeScanner.Helps;
+﻿using BarCodeScanner.Helps;
+
+using DataBase.Model;
+
 using LiteDB;
+
 using MaterialDesignThemes.Wpf;
+
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -24,11 +28,12 @@ namespace BarCodeScanner.ViewModel
             ContextActionCommand = ReactiveCommand.Create(EditAndSaveValue,
                 this.WhenAnyValue(
                     m => m.BarCode, m => m.FullName,
-                    (b, n) => 
+                    (b, n) =>
                         !string.IsNullOrWhiteSpace(b) &&
                         !string.IsNullOrWhiteSpace(n)));
             GenerateBarcodeCommand = ReactiveCommand.Create(() => BarCode = BarCodeGenerator.GenerateBarCode());
         }
+
         public AddNewWorkerViewModel(Worker selectediteam) : this()
         {
             _isEditMode = true;
