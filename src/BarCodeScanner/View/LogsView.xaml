@@ -7,22 +7,31 @@
     Background="White"
     mc:Ignorable="d">
     <Grid>
-        <ListView ItemsSource="{Binding LogsList}"
-                  SelectedItem="{Binding SelectedIteam}"
-                  SelectionMode="Single">
+        <ListView
+            ItemsSource="{Binding LogsList}"
+            SelectedItem="{Binding SelectedIteam}"
+            SelectionMode="Single">
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Обновить"
-                              Command="{Binding UpdateCommand}" />
-                    <MenuItem Header="Удалить"
-                              Command="{Binding RemoveCommand}" />
+                    <MenuItem Command="{Binding UpdateCommand}" Header="Обновить" />
+                    <MenuItem Command="{Binding RemoveCommand}" Header="Удалить" />
+                    <MenuItem Command="{Binding ExcelImportCommand}" Header="Импортировать в Excel" />
                 </ContextMenu>
             </ListView.ContextMenu>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding WorkerBy}" Header="ФИО" Width="165" />
-                    <GridViewColumn DisplayMemberBinding="{Binding ScanTime}" Header="Время сканирование" Width="150" />
-                    <GridViewColumn DisplayMemberBinding="{Binding ScanType}" Header="Тип сканирование" Width="60" />
+                    <GridViewColumn
+                        Width="165"
+                        DisplayMemberBinding="{Binding WorkerBy}"
+                        Header="ФИО" />
+                    <GridViewColumn
+                        Width="150"
+                        DisplayMemberBinding="{Binding ScanTime}"
+                        Header="Время сканирование" />
+                    <GridViewColumn
+                        Width="60"
+                        DisplayMemberBinding="{Binding ScanType}"
+                        Header="Тип сканирование" />
                 </GridView>
             </ListView.View>
         </ListView>

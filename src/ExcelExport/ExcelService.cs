@@ -61,12 +61,13 @@ namespace ExcelExport
             return style;
         }
 
-        private Task StartImportExcel()
+        public Task StartImportExcel()
         {
             return Task.Run(() =>
             {
                 RenderHeaderAndWorkerRow();
                 RenderLogs();
+                SaveExcel(FilePath);
             });
         }
 
@@ -94,7 +95,7 @@ namespace ExcelExport
         private void RenderLogs()
         {
             var sort = _logs
-                .GroupBy(x => x.ScanTime)
+                .GroupBy(x => x.ScanTime.Date)
                 .TakeByGroup(2);
             int i = 1;
             foreach (var log in sort)
@@ -121,13 +122,44 @@ namespace ExcelExport
             data.CellStyle = dateStyle;
             data.SetCellValue(dateTime.ToShortDateString());
 
-            //Render Log
-            for (int i = 0; i <= 2; i++)
+            //Render firstRow Log
+            var firstWorkers = logs.Where(x => x.ScanType == ScanTypes.Пришел);
+
+            var columnidf = 1;
+            foreach (var worker in _workers)
             {
-                var came = logs[0];
+                foreach (var log in firstWorkers)
+                {
+                    if (worker.Id == log.Id)
+                    {
+                        var colmn = firstRow.CreateCell(columnidf);
+                        colmn.CellStyle = firstRowStyle;
+                        colmn.SetCellValue(log.ScanTime.ToShortTimeString());
+                        break;
+                    }
+                }
 
+                columnidf++;
+            }
 
-                var gone = logs[1];
+            //Render secondRow Log
+            var secondWorkers = logs.Where(x => x.ScanType == ScanTypes.Ушел);
+
+            var columnids = 1;
+            foreach (var worker in _workers)
+            {
+                foreach (var log in secondWorkers)
+                {
+                    if (worker.Id == log.Id)
+                    {
+                        var colmn = firstRow.CreateCell(columnids);
+                        colmn.CellStyle = firstRowStyle;
+                        colmn.SetCellValue(log.ScanTime.ToShortTimeString());
+                        break;
+                    }
+                }
+
+                columnids++;
             }
         }
 

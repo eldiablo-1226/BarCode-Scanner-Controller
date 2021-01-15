@@ -8,6 +8,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="db\**" />
+    <Compile Remove="Model\**" />
+    <EmbeddedResource Remove="db\**" />
+    <EmbeddedResource Remove="Model\**" />
+    <None Remove="db\**" />
+    <None Remove="Model\**" />
+    <Page Remove="db\**" />
+    <Page Remove="Model\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="6.1.0" />
     <PackageReference Include="Autofac.Extras.CommonServiceLocator" Version="6.0.1" />
     <PackageReference Include="Autofac.Mef" Version="6.0.0" />
@@ -19,11 +30,6 @@
     <PackageReference Include="ReactiveUI.Fody" Version="13.0.27" />
     <PackageReference Include="ReactiveUI.WPF" Version="13.0.27" />
     <PackageReference Include="System.IO.Ports" Version="5.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="db" />
-    <Folder Include="Model\" />
   </ItemGroup>
 
   <ItemGroup>
