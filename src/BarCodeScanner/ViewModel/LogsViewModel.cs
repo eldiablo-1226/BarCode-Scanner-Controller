@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using System.Threading.Tasks;
 using BarCodeScanner.Core;
-
+using BarCodeScanner.View;
 using DataBase;
 using DataBase.Model;
-using ExcelExport;
 using NLog;
 
 using ReactiveUI;
@@ -16,10 +15,10 @@ namespace BarCodeScanner.ViewModel
 {
     public class LogsViewModel : ReactiveObject
     {
-        private IDbContext _db;
-        private ILogger _logger;
+        private readonly IDbContext _db;
+        private readonly ILogger _logger;
 
-        public LogsViewModel(IDbContext dbContext, ILogger logger, IBarCodeContext barCode)
+        public LogsViewModel(IDbContext dbContext, ILogger logger)
         {
             _db = dbContext;
             _logger = logger;
@@ -41,10 +40,18 @@ namespace BarCodeScanner.ViewModel
         [Reactive] public IReactiveCommand RemoveCommand { get; set; }
         [Reactive] public IReactiveCommand ExcelImportCommand { get; set; }
 
-        private async void ImportExcel()
+        private void ImportExcel()
         {
-            var service = new ExcelService(_db.Workers.FindAll().ToArray(), LogsList.ToArray());
-            await service.StartImportExcel();
+            try
+            {
+                var Data = new DataGridLogs();
+                Data.Show();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         private void DeleteWorker()

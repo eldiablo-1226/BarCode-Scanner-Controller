@@ -19,7 +19,7 @@ namespace ExcelExport
         private readonly Worker[] _workers;
         private readonly WorkTimeLog[] _logs;
 
-        private readonly IWorkbook _workbook;
+        private IWorkbook _workbook;
         private ISheet _excelSheet;
 
         private readonly ICellStyle _cellStyle;
@@ -35,14 +35,14 @@ namespace ExcelExport
             _workbook = new XSSFWorkbook();
             _excelSheet = _workbook.CreateSheet("Main");
 
-            //set with first row
+            //set with first column
             _excelSheet.SetColumnWidth(0, 20 * 256);
 
             //Init style
             _cellStyle = SetDefaultStyle(_workbook.CreateCellStyle());
         }
 
-        private ICellStyle SetDefaultStyle(
+        private static ICellStyle SetDefaultStyle(
             ICellStyle style, 
             BorderStyle border = BorderStyle.Thin)
         {
@@ -84,9 +84,10 @@ namespace ExcelExport
 
             //Write workers
             cellStyle.Alignment = HorizontalAlignment.Left;
+            //var column = _excelSheet.CreateRow(0);
             for (int i = 0; i < _workers.Length; i++)
             {
-                var column = _excelSheet.CreateRow(0).CreateCell(i + 1);
+                var column = _excelSheet.CreateRow(i + 1).CreateCell(0);
                 column.CellStyle = cellStyle;
                 column.SetCellValue(_workers[i].FullName);
             }
@@ -94,21 +95,24 @@ namespace ExcelExport
 
         private void RenderLogs()
         {
-            var sort = _logs
-                .GroupBy(x => x.ScanTime.Date)
-                .TakeByGroup(2);
+            var sort = _logs.TakeByGroup();
             int i = 1;
             foreach (var log in sort)
             {
                 WriteColumnLogs(i, log.Key, log.Value.ToList());
+
+                _excelSheet.SetColumnWidth(i, 11 * 256);
+                _excelSheet.SetColumnWidth(i + 1, 11 * 256);
+
+                SaveExcel(FilePath);
                 i += 2;
             }
         }
 
-        private void WriteColumnLogs(int row, DateTime dateTime, List<WorkTimeLog> logs)
+        private void WriteColumnLogs(int column, DateTime dateTime, List<WorkTimeLog> logs)
         {
-            var firstRow = _excelSheet.CreateRow(row);
-            var secondRow = _excelSheet.CreateRow(row + 1);
+            int firstColumn = column;
+            int secondColumn = column + 1;
 
             // Row Style
             var firstRowStyle = _cellStyle; firstRowStyle.BorderLeft = BorderStyle.Thick;
@@ -118,46 +122,54 @@ namespace ExcelExport
             var dateStyle = SetDefaultStyle(_cellStyle, BorderStyle.Thick);
 
             // Render Data
-            var data = secondRow.CreateCell(0);
+            var data = _excelSheet.CreateRow(0).CreateCell(secondColumn);
             data.CellStyle = dateStyle;
-            data.SetCellValue(dateTime.ToShortDateString());
+            data.SetCellValue(dateTime.ToLongDateString());
 
             //Render firstRow Log
-            var firstWorkers = logs.Where(x => x.ScanType == ScanTypes.Пришел);
+            var firstWorkers = logs.Where(x => x.ScanType == ScanTypes.Пришел).ToArray();
 
             var columnidf = 1;
             foreach (var worker in _workers)
             {
+                var colmn = _excelSheet.CreateRow(columnidf).CreateCell(firstColumn);
+                colmn.CellStyle = firstRowStyle;
+                bool isFound = false;
                 foreach (var log in firstWorkers)
                 {
                     if (worker.Id == log.Id)
                     {
-                        var colmn = firstRow.CreateCell(columnidf);
-                        colmn.CellStyle = firstRowStyle;
-                        colmn.SetCellValue(log.ScanTime.ToShortTimeString());
+                        colmn.SetCellValue(log.ScanTime.ToLongTimeString());
+                        isFound = true;
                         break;
                     }
                 }
+                if (!isFound)
+                    colmn.SetCellValue("-  ");
 
                 columnidf++;
             }
 
             //Render secondRow Log
-            var secondWorkers = logs.Where(x => x.ScanType == ScanTypes.Ушел);
+            var secondWorkers = logs.Where(x => x.ScanType == ScanTypes.Ушел).ToArray();
 
             var columnids = 1;
             foreach (var worker in _workers)
             {
+                var colmn = _excelSheet.CreateRow(columnids).CreateCell(secondColumn);
+                colmn.CellStyle = firstRowStyle;
+                bool isFound = false;
                 foreach (var log in secondWorkers)
                 {
                     if (worker.Id == log.Id)
                     {
-                        var colmn = firstRow.CreateCell(columnids);
-                        colmn.CellStyle = firstRowStyle;
-                        colmn.SetCellValue(log.ScanTime.ToShortTimeString());
+                        colmn.SetCellValue(log.ScanTime.ToLongTimeString());
+                        isFound = true;
                         break;
                     }
                 }
+                if (!isFound)
+                    colmn.SetCellValue("-  ");
 
                 columnids++;
             }
@@ -165,7 +177,7 @@ namespace ExcelExport
 
         private void SaveExcel(string filePath)
         {
-            var stream = File.Create(filePath);
+            var stream = File.Open(filePath, FileMode.OpenOrCreate);
             _workbook.Write(stream);
 
             _workbook.Close();

@@ -22,13 +22,14 @@
     <PackageReference Include="Autofac" Version="6.1.0" />
     <PackageReference Include="Autofac.Extras.CommonServiceLocator" Version="6.0.1" />
     <PackageReference Include="Autofac.Mef" Version="6.0.0" />
-    <PackageReference Include="Hardcodet.NotifyIcon.Wpf.NetCore" Version="1.0.14" />
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf.NetCore" Version="1.0.17" />
     <PackageReference Include="MaterialDesignThemes" Version="3.2.0" />
     <PackageReference Include="NLog" Version="4.7.6" />
     <PackageReference Include="NLog.Config" Version="4.7.6" />
-    <PackageReference Include="ReactiveUI" Version="13.0.27" />
-    <PackageReference Include="ReactiveUI.Fody" Version="13.0.27" />
-    <PackageReference Include="ReactiveUI.WPF" Version="13.0.27" />
+    <PackageReference Include="PropertyTools.Wpf.Magic" Version="0.0.4" />
+    <PackageReference Include="ReactiveUI" Version="13.0.38" />
+    <PackageReference Include="ReactiveUI.Fody" Version="13.0.38" />
+    <PackageReference Include="ReactiveUI.WPF" Version="13.0.38" />
     <PackageReference Include="System.IO.Ports" Version="5.0.0" />
   </ItemGroup>
 
@@ -43,7 +44,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataBase\DataBase.csproj" />
-    <ProjectReference Include="..\ExcelExport\ExcelExport.csproj" />
   </ItemGroup>
 
 </Project>

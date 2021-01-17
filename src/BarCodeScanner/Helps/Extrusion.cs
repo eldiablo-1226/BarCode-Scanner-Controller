@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using DataBase.Model;
 
-namespace ExcelExport.Helper
+namespace BarCodeScanner.Helps
 {
     public static class Extrusion
     {
         public static Dictionary<DateTime, IEnumerable<WorkTimeLog>> TakeByGroup(
-            this WorkTimeLog[] values)
+            this IList<WorkTimeLog> values)
         {
             var temp = new Dictionary<DateTime, IEnumerable<WorkTimeLog>>();
             var sorted = values.GroupBy(x => x.ScanTime.Date);

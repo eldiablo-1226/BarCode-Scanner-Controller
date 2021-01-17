@@ -25,6 +25,7 @@ namespace BarCodeScanner
             builder.RegisterType<DashboardViewModel>();
             builder.RegisterType<WorkersViewModel>();
             builder.RegisterType<LogsViewModel>();
+            builder.RegisterType<DataGridLogsViewModel>();
 
             //Services
             builder.RegisterType<BarCodeContext>().As<IBarCodeContext>().SingleInstance();
