@@ -7,56 +7,63 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="White"
     mc:Ignorable="d">
-    <StackPanel Margin="20">
+    <Grid Margin="20">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Name="Defenition" Height="*" />
+        </Grid.RowDefinitions>
         <!--  IconFilds  -->
-        <StackPanel Orientation="Horizontal">
-            <materialDesign:PackIcon
-                Width="27"
-                Height="27"
-                Margin="0,0,10,0"
-                VerticalAlignment="Center"
-                Kind="BarcodeScan" />
-            <TextBlock
-                VerticalAlignment="Center"
-                FontSize="18"
-                FontWeight="Bold"
-                Text="Bar Code - " />
-            <TextBlock
-                VerticalAlignment="Center"
-                FontSize="15"
-                FontWeight="Bold"
-                Text="{Binding Path=BarCode}" />
-        </StackPanel>
-        <StackPanel Margin="0,15,0,20" Orientation="Horizontal">
-            <materialDesign:PackIcon
-                Width="27"
-                Height="27"
-                Margin="0,0,10,0"
-                VerticalAlignment="Center"
-                Kind="AccountBox" />
-            <TextBlock
-                VerticalAlignment="Center"
-                FontSize="18"
-                FontWeight="Bold"
-                Text="ФИО - " />
-            <TextBlock
-                VerticalAlignment="Center"
-                FontSize="15"
-                FontWeight="Bold"
-                Text="{Binding Path=FullName}" />
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <materialDesign:PackIcon
+                    Width="27"
+                    Height="27"
+                    Margin="0,0,10,0"
+                    VerticalAlignment="Center"
+                    Kind="BarcodeScan" />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="18"
+                    FontWeight="Bold"
+                    Text="Bar Code - " />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="15"
+                    FontWeight="Bold"
+                    Text="{Binding Path=BarCode}" />
+            </StackPanel>
+            <StackPanel Margin="0,15,0,20" Orientation="Horizontal">
+                <materialDesign:PackIcon
+                    Width="27"
+                    Height="27"
+                    Margin="0,0,10,0"
+                    VerticalAlignment="Center"
+                    Kind="AccountBox" />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="18"
+                    FontWeight="Bold"
+                    Text="ФИО - " />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="15"
+                    FontWeight="Bold"
+                    Text="{Binding Path=FullName}" />
+            </StackPanel>
         </StackPanel>
 
         <!--  ScanchangedText  -->
-        <Grid>
-            <TextBox
-                Height="280"
-                VerticalAlignment="Top"
-                materialDesign:HintAssist.Hint="Лог сканирование"
-                AcceptsReturn="True"
-                Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
-                Text="{Binding LogText}"
-                TextWrapping="Wrap"
-                VerticalScrollBarVisibility="Auto" />
-        </Grid>
-    </StackPanel>
+        <TextBox
+            Grid.Row="1"
+            Height="282"
+            VerticalAlignment="Top"
+            materialDesign:HintAssist.Hint="Лог сканирование"
+            AcceptsReturn="True"
+            IsReadOnly="True"
+            Style="{StaticResource MaterialDesignOutlinedTextFieldTextBox}"
+            Text="{Binding LogText}"
+            TextWrapping="Wrap"
+            VerticalScrollBarVisibility="Auto" />
+    </Grid>
 </UserControl>

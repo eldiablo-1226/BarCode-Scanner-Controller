@@ -11,6 +11,13 @@
     Height="450"
     mc:Ignorable="d">
     <Grid>
-        <p:DataGrid ItemsSource="{Binding ArrayLogs}" />
+        <p:DataGrid
+            ColumnHeadersSource="{Binding HeaderData}"
+            CanResizeColumns="True"
+            DefaultColumnWidth="Auto"
+            ItemsSource="{Binding ArrayLogs}"
+            RowHeaderWidth="Auto"
+            RowHeadersSource="{Binding DateTimeLog}" >
+        </p:DataGrid>
     </Grid>
 </Window>

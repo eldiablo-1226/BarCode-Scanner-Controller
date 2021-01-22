@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using DataBase;
@@ -15,112 +16,98 @@ namespace BarCodeScanner.ViewModel
         private readonly List<Worker> _workers;
         private readonly Dictionary<DateTime, IEnumerable<WorkTimeLog>> _logs;
 
-        [Reactive] public string[,] ArrayLogs { get; set; }
+        [Reactive] public ObservableCollection<ObservableCollection<string>> ArrayLogs { get; set; }
+        [Reactive] public ObservableCollection<string> HeaderData { get; set; }
+        [Reactive] public ObservableCollection<string> DateTimeLog { get; set; }
 
         public DataGridLogsViewModel(IDbContext db)
         {
             _workers = db.Workers.FindAll().ToList();
             _logs = db.Logs.FindAll().ToList().TakeByGroup();
 
-            var columnCount = 1 + (_logs.Count * 2);
-            var rowCount = 1 + _workers.Count;
-
-            ArrayLogs = new string[columnCount, rowCount];
+            ArrayLogs = new ObservableCollection<ObservableCollection<string>>();
+            HeaderData= new ObservableCollection<string>();
+            DateTimeLog = new ObservableCollection<string>();
 
             RenderHeaderAndWorkerRow();
-            
-            Task.Run(() =>
-            {
-                try
-                {
-                    RenderLogs();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-            });
+
+            RenderLogs();
         }
 
         private void RenderHeaderAndWorkerRow()
         {
-            ArrayLogs[0,0] = "ФИО \\ Дата";
+            //HeaderData.Add("ФИО \\ Дата");
 
-            for (int i = 0; i < _workers.Count; i++)
+            foreach (var worker in _workers)
             {
-                ArrayLogs[0, i + 1] = _workers[i].FullName;
+                HeaderData.Add(worker.FullName);
             }
+            //ArrayLogs.Add(new ObservableCollection<string>(HeaderData));
         }
 
         private void RenderLogs()
         {
-            int i = 1;
             foreach (var log in _logs)
             {
-                WriteColumnLogs(i, log.Key, log.Value.ToList());
-                i += 2;
+                var resault = WriteColumnLogs(log.Key, log.Value.ToList()).Reverse().ToArray();
+
+                ArrayLogs.Add(new ObservableCollection<string>(resault[0]));
+                ArrayLogs.Add(new ObservableCollection<string>(resault[1]));
             }
         }
 
-        private void WriteColumnLogs(int column, DateTime dateTime, List<WorkTimeLog> logs)
+        private IEnumerable<List<string>> WriteColumnLogs(DateTime dateTime, List<WorkTimeLog> logs)
         {
-            try
+            List<string> firstColumn = new List<string>();
+            List<string> secondColumn = new List<string>();
+
+            // Render Data
+            DateTimeLog.Add(dateTime.ToLongDateString());
+            DateTimeLog.Add("у");
+
+            //Render firstRow Log
+            var firstWorkers = logs
+                .Where(x => x.ScanType == ScanTypes.Пришел)
+                .ToArray();
+
+            foreach (var worker in _workers)
             {
-                int firstColumn = column;
-                int secondColumn = column + 1;
-
-                // Render Data
-                ArrayLogs[secondColumn, 0] = dateTime.ToLongDateString();
-
-                //Render firstRow Log
-                var firstWorkers = logs.Where(x => x.ScanType == ScanTypes.Пришел).ToArray();
-
-                var columnidf = 1;
-                foreach (var worker in _workers)
+                bool isFound = false;
+                foreach (var log in firstWorkers)
                 {
-                    bool isFound = false;
-                    foreach (var log in firstWorkers)
+                    if (worker.Id == log.WorkerBy.Id)
                     {
-                        if (worker.Id == log.Id)
-                        {
-                            ArrayLogs[firstColumn, columnidf] = log.ScanTime.ToLongTimeString();
-                            isFound = true;
-                            break;
-                        }
+                        firstColumn.Add(log.ScanTime.ToLongTimeString());
+                        isFound = true;
+                        break;
                     }
-                    if (!isFound)
-                        ArrayLogs[firstColumn, columnidf] = "-";
-
-                    columnidf++;
                 }
-
-                //Render secondRow Log
-                var secondWorkers = logs.Where(x => x.ScanType == ScanTypes.Ушел).ToArray();
-
-                var columnids = 1;
-                foreach (var worker in _workers)
-                {
-                    bool isFound = false;
-                    foreach (var log in secondWorkers)
-                    {
-                        if (worker.Id == log.Id)
-                        {
-                            ArrayLogs[secondColumn, columnids] = log.ScanTime.ToLongTimeString();
-                            isFound = true;
-                            break;
-                        }
-                    }
-                    if (!isFound)
-                        ArrayLogs[secondColumn, columnids] = "-";
-
-                    columnids++;
-                }
+                if (!isFound)
+                    firstColumn.Add("-");
             }
-            catch (Exception e)
+
+            //Render secondRow Log
+            var secondWorkers = logs
+                .Where(x => x.ScanType == ScanTypes.Ушел)
+                .ToArray();
+
+            foreach (var worker in _workers)
             {
-                Console.WriteLine(e);
-                throw;
+                bool isFound = false;
+                foreach (var log in secondWorkers)
+                {
+                    if (worker.Id == log.WorkerBy.Id)
+                    {
+                        secondColumn.Add(log.ScanTime.ToLongTimeString());
+                        isFound = true;
+                        break;
+                    }
+                }
+                if (!isFound)
+                    secondColumn.Add("-");
             }
+
+            return new List<List<string>>{secondColumn, firstColumn};
         }
 
     }

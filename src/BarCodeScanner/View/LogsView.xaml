@@ -15,7 +15,8 @@
                 <ContextMenu>
                     <MenuItem Command="{Binding UpdateCommand}" Header="Обновить" />
                     <MenuItem Command="{Binding RemoveCommand}" Header="Удалить" />
-                    <MenuItem Command="{Binding ExcelImportCommand}" Header="Импортировать в Excel" />
+                    <MenuItem Command="{Binding ExcelImportCommand}" Header="Открыть в таблице" />
+                    <MenuItem Command="{Binding ClearCommand}" Header="Очистить список" />
                 </ContextMenu>
             </ListView.ContextMenu>
             <ListView.View>

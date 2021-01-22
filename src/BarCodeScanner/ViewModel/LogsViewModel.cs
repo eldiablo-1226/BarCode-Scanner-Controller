@@ -30,6 +30,7 @@ namespace BarCodeScanner.ViewModel
                 log => log != null));
             UpdateCommand = ReactiveCommand.Create(LoadLogs);
             ExcelImportCommand = ReactiveCommand.Create(ImportExcel);
+            ClearCommand = ReactiveCommand.Create(() => { _db.Logs.DeleteAll(); LoadLogs(); });
             LoadLogs();
         }
 
@@ -39,13 +40,15 @@ namespace BarCodeScanner.ViewModel
         [Reactive] public IReactiveCommand UpdateCommand { get; set; }
         [Reactive] public IReactiveCommand RemoveCommand { get; set; }
         [Reactive] public IReactiveCommand ExcelImportCommand { get; set; }
+        [Reactive] public IReactiveCommand ClearCommand { get; set; }
+
 
         private void ImportExcel()
         {
             try
             {
-                var Data = new DataGridLogs();
-                Data.Show();
+                var data = new DataGridLogs();
+                data.Show();
             }
             catch (Exception e)
             {
